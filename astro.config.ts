@@ -14,8 +14,11 @@ import {
 import { transformerFileName } from "./src/utils/transformers/fileName";
 import config from "./astro-paper.config";
 
+const isGitHubPages = process.env.GITHUB_ACTIONS === "true";
+
 export default defineConfig({
   site: config.site.url,
+  base: isGitHubPages ? "/personal-website" : "/",
   integrations: [
     mdx(),
     sitemap({

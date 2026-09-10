@@ -2,11 +2,11 @@ import { defineAstroPaperConfig } from "./src/types/config";
 
 export default defineAstroPaperConfig({
   site: {
-    url: "https://example.com/",
+    url: "https://xpcing.github.io/",
     title: "你的名字",
     description: "个人简历、项目作品与长期学习生活记录。",
     author: "你的名字",
-    profile: "https://github.com/your-username",
+    profile: "https://github.com/Xpcing",
     ogImage: "default-og.jpg",
     lang: "zh-CN",
     timezone: "Asia/Shanghai",
@@ -30,7 +30,7 @@ export default defineAstroPaperConfig({
   socials: [
     {
       name: "github",
-      url: "https://github.com/your-username",
+      url: "https://github.com/Xpcing",
       linkTitle: "GitHub",
     },
     {

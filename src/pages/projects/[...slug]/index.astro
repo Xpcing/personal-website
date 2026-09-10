@@ -6,6 +6,7 @@ import Footer from "@/components/Footer.astro";
 import Breadcrumb from "@/components/Breadcrumb.astro";
 import LinkButton from "@/components/LinkButton.astro";
 import IconArrowRight from "@/assets/icons/IconArrowRight.svg";
+import { getAssetPath } from "@/utils/withBase";
 import config from "@/config";
 
 export async function getStaticPaths() {
@@ -20,6 +21,8 @@ const { project } = Astro.props;
 const { Content } = await render(project);
 const { title, description, status, stack, repo, demo, cover, pubDatetime } =
   project.data;
+
+const coverUrl = cover ? getAssetPath(cover) : undefined;
 
 const statusLabels = {
   active: "进行中",
@@ -80,10 +83,10 @@ const statusLabels = {
       </div>
 
       {
-        cover && (
+        coverUrl && (
           <div class="border-border overflow-hidden rounded-lg border">
             <img
-              src={cover}
+              src={coverUrl}
               alt={`${title} 项目预览`}
               width="960"
               height="540"

@@ -2,6 +2,7 @@
 import type { CollectionEntry } from "astro:content";
 import { getRelativeLocaleUrl } from "astro:i18n";
 import IconArrowRight from "@/assets/icons/IconArrowRight.svg";
+import { getAssetPath } from "@/utils/withBase";
 
 type Props = {
   project: CollectionEntry<"projects">;
@@ -9,6 +10,8 @@ type Props = {
 
 const { project } = Astro.props;
 const { title, description, status, stack, cover } = project.data;
+
+const coverUrl = cover ? getAssetPath(cover) : undefined;
 
 const statusLabels = {
   active: "进行中",
@@ -29,9 +32,9 @@ const statusLabels = {
   >
     <div class="bg-muted aspect-[16/9] overflow-hidden">
       {
-        cover ? (
+        coverUrl ? (
           <img
-            src={cover}
+            src={coverUrl}
             alt={`${title} 项目预览`}
             width="800"
             height="450"
