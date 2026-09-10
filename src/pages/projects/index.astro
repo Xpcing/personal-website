@@ -1,0 +1,32 @@
+---
+import { getCollection } from "astro:content";
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import Breadcrumb from "@/components/Breadcrumb.astro";
+import Main from "@/components/Main.astro";
+import Footer from "@/components/Footer.astro";
+import ProjectCard from "@/components/ProjectCard.astro";
+import { useTranslations } from "@/i18n";
+import config from "@/config";
+
+const t = useTranslations(Astro.currentLocale ?? config.site.lang);
+const projects = (await getCollection("projects")).sort((a, b) => {
+  if (a.data.order !== b.data.order) return a.data.order - b.data.order;
+  return b.data.pubDatetime.valueOf() - a.data.pubDatetime.valueOf();
+});
+---
+
+<Layout title={`${t.nav.projects} | ${config.site.title}`}>
+  <Header />
+  <Breadcrumb />
+  <Main
+    pageTitle={t.nav.projects}
+    pageDesc="选择具有代表性的项目，说明问题、方案、结果和可复用经验。"
+    class="pb-14"
+  >
+    <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      {projects.map(project => <ProjectCard {project} />)}
+    </div>
+  </Main>
+  <Footer />
+</Layout>

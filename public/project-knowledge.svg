@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" role="img" aria-labelledby="title">
+  <title id="title">Knowledge system project cover</title>
+  <rect width="1200" height="675" fill="#f1eadf"/>
+  <circle cx="985" cy="104" r="245" fill="#c75b3d" opacity=".14"/>
+  <rect x="120" y="95" width="960" height="485" rx="28" fill="#fffaf1"/>
+  <rect x="175" y="155" width="245" height="360" rx="18" fill="#20231f"/>
+  <rect x="465" y="155" width="545" height="92" rx="18" fill="#e8dfd1"/>
+  <rect x="465" y="280" width="255" height="235" rx="18" fill="#176b5b"/>
+  <rect x="755" y="280" width="255" height="105" rx="18" fill="#f3ba68"/>
+  <rect x="755" y="418" width="255" height="97" rx="18" fill="#d9e5df"/>
+  <circle cx="298" cy="218" r="24" fill="#6fd1b5"/>
+  <rect x="208" y="275" width="180" height="14" rx="7" fill="#8d9692"/>
+  <rect x="208" y="315" width="150" height="14" rx="7" fill="#59615e"/>
+  <path d="M560 310h60M595 280v60" stroke="#f8f4eb" stroke-width="18" stroke-linecap="round"/>
+  <path d="M835 330h100M885 305v50" stroke="#20231f" stroke-width="16" stroke-linecap="round"/>
+</svg>

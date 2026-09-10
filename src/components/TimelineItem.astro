@@ -1,0 +1,30 @@
+---
+type Props = {
+  period: string;
+  title: string;
+  organization: string;
+  description: string;
+  tags?: readonly string[];
+};
+
+const { period, title, organization, description, tags = [] } = Astro.props;
+---
+
+<article class="border-border relative border-l pb-9 pl-7 last:pb-0">
+  <span
+    class="bg-accent ring-background absolute top-1 -left-1.5 size-3 rounded-full ring-4"
+    aria-hidden="true"></span>
+  <p class="text-muted-foreground text-sm font-medium">{period}</p>
+  <h3 class="mt-2 text-xl font-semibold">{title}</h3>
+  <p class="text-accent mt-1 text-sm font-medium">{organization}</p>
+  <p class="text-muted-foreground mt-3 leading-7">{description}</p>
+  {
+    tags.length > 0 && (
+      <ul class="mt-4 flex flex-wrap gap-2" aria-label="相关能力">
+        {tags.map(tag => (
+          <li class="bg-muted rounded px-2.5 py-1 text-xs">{tag}</li>
+        ))}
+      </ul>
+    )
+  }
+</article>

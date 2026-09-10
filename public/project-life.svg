@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" role="img" aria-labelledby="title">
+  <title id="title">Life archive project cover</title>
+  <rect width="1200" height="675" fill="#dce8e8"/>
+  <circle cx="220" cy="160" r="110" fill="#f3ba68" opacity=".8"/>
+  <path d="M0 520c190-140 345-155 535-35s355 100 665-80v270H0z" fill="#176b5b"/>
+  <path d="M0 575c220-105 390-92 570 10s390 110 630-12v102H0z" fill="#20231f"/>
+  <rect x="760" y="105" width="300" height="350" rx="150" fill="#f8f4eb" opacity=".9"/>
+  <circle cx="910" cy="270" r="74" fill="#c75b3d" opacity=".8"/>
+  <path d="M120 430h330" stroke="#f8f4eb" stroke-width="20" stroke-linecap="round" opacity=".8"/>
+  <path d="M120 485h210" stroke="#f8f4eb" stroke-width="20" stroke-linecap="round" opacity=".5"/>
+</svg>

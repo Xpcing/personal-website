@@ -1,0 +1,192 @@
+---
+import { getCollection } from "astro:content";
+import { getRelativeLocaleUrl } from "astro:i18n";
+import IconArrowRight from "@/assets/icons/IconArrowRight.svg";
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import Footer from "@/components/Footer.astro";
+import ProjectCard from "@/components/ProjectCard.astro";
+import Card from "@/components/Card.astro";
+import LinkButton from "@/components/LinkButton.astro";
+import { getSortedPosts } from "@/utils/getSortedPosts";
+import { profile } from "@/data/profile";
+import { useTranslations } from "@/i18n";
+import config from "@/config";
+
+const locale = Astro.currentLocale ?? config.site.lang;
+const t = useTranslations(locale);
+
+const projectEntries = await getCollection("projects");
+const featuredProjects = projectEntries
+  .filter(({ data }) => data.featured)
+  .sort((a, b) => a.data.order - b.data.order);
+
+const posts = getSortedPosts(
+  await getCollection("posts", ({ data }) => !data.draft)
+);
+const recentNotes = posts
+  .filter(({ data }) => data.category === "study")
+  .slice(0, 3);
+const recentLife = posts
+  .filter(({ data }) => data.category === "life")
+  .slice(0, 2);
+
+const homePath = getRelativeLocaleUrl(locale, "");
+---
+
+<Layout>
+  <Header />
+  <main id="main-content" data-layout="index" data-home-path={homePath}>
+    <section
+      class="app-layout border-border grid gap-12 border-b py-14 lg:grid-cols-[1.25fr_0.75fr] lg:items-center lg:py-20"
+    >
+      <div>
+        <p
+          class="text-accent mb-5 text-sm font-semibold tracking-[0.22em] uppercase"
+        >
+          {profile.role}
+        </p>
+        <h1
+          class="max-w-3xl text-4xl leading-tight font-bold sm:text-5xl lg:text-6xl"
+        >
+          {profile.name}
+        </h1>
+        <p class="mt-6 max-w-2xl text-xl leading-9 font-medium">
+          {profile.headline}
+        </p>
+        <p class="text-muted-foreground mt-4 max-w-2xl leading-8">
+          {profile.intro}
+        </p>
+        <div class="mt-8 flex flex-wrap gap-3">
+          <LinkButton
+            href={getRelativeLocaleUrl(locale, "projects")}
+            class="bg-accent text-accent-foreground hover:border-accent inline-flex items-center gap-2 rounded px-5 py-3 font-medium no-underline hover:opacity-90"
+          >
+            {t.home.viewProjects}
+            <IconArrowRight class="size-5" aria-hidden="true" />
+          </LinkButton>
+          <LinkButton
+            href={getRelativeLocaleUrl(locale, "resume")}
+            class="border-border hover:text-accent hover:border-accent inline-flex items-center rounded border px-5 py-3 font-medium no-underline"
+          >
+            {t.home.readResume}
+          </LinkButton>
+        </div>
+        <ul class="mt-8 flex flex-wrap gap-x-6 gap-y-3">
+          {
+            profile.links.map(link => (
+              <li>
+                <LinkButton
+                  href={link.href}
+                  class="text-muted-foreground hover:text-accent inline-flex items-center gap-2 no-underline"
+                >
+                  {link.label}
+                  <IconArrowRight class="size-4" aria-hidden="true" />
+                </LinkButton>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <aside
+        class="bg-foreground text-background relative overflow-hidden rounded-lg p-7 sm:p-9"
+        aria-label="个人概览"
+      >
+        <div
+          class="border-background/15 absolute -top-16 -right-16 size-56 rounded-full border"
+          aria-hidden="true"
+        >
+        </div>
+        <div
+          class="border-background/10 absolute -top-5 -right-5 size-56 rounded-full border"
+          aria-hidden="true"
+        >
+        </div>
+        <p class="text-background/60 text-xs tracking-[0.24em] uppercase">
+          Currently
+        </p>
+        <p class="mt-4 text-2xl font-semibold">{profile.availability}</p>
+        <p class="text-background/70 mt-3 leading-7">{profile.location}</p>
+        <dl class="mt-10 grid grid-cols-3 gap-4">
+          {
+            profile.stats.map(stat => (
+              <div>
+                <dt class="text-background/55 text-xs">{stat.label}</dt>
+                <dd class="mt-2 text-2xl font-semibold">{stat.value}</dd>
+              </div>
+            ))
+          }
+        </dl>
+      </aside>
+    </section>
+
+    <section class="app-layout py-14 sm:py-18">
+      <div class="mb-8 flex items-end justify-between gap-6">
+        <div>
+          <p
+            class="text-accent text-sm font-semibold tracking-widest uppercase"
+          >
+            Work
+          </p>
+          <h2 class="mt-2 text-3xl font-semibold">{t.home.featured}</h2>
+        </div>
+        <LinkButton
+          href={getRelativeLocaleUrl(locale, "projects")}
+          class="text-muted-foreground hover:text-accent hidden items-center gap-2 no-underline sm:inline-flex"
+        >
+          全部项目
+          <IconArrowRight class="size-4" aria-hidden="true" />
+        </LinkButton>
+      </div>
+      <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {featuredProjects.map(project => <ProjectCard {project} />)}
+      </div>
+    </section>
+
+    <section class="bg-muted/45 border-border border-y">
+      <div class="app-layout grid gap-12 py-14 sm:py-18 lg:grid-cols-2">
+        <div>
+          <div class="mb-5 flex items-center justify-between gap-4">
+            <h2 class="text-2xl font-semibold">{t.home.latestNotes}</h2>
+            <LinkButton
+              href={getRelativeLocaleUrl(locale, "notes")}
+              class="text-accent no-underline"
+            >
+              查看全部
+            </LinkButton>
+          </div>
+          <ul>
+            {recentNotes.map(post => <Card variant="h3" {...post} />)}
+          </ul>
+        </div>
+        <div>
+          <div class="mb-5 flex items-center justify-between gap-4">
+            <h2 class="text-2xl font-semibold">{t.home.latestLife}</h2>
+            <LinkButton
+              href={getRelativeLocaleUrl(locale, "life")}
+              class="text-accent no-underline"
+            >
+              查看全部
+            </LinkButton>
+          </div>
+          <ul>
+            {recentLife.map(post => <Card variant="h3" {...post} />)}
+          </ul>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>
+
+<script>
+  document.addEventListener("astro:page-load", () => {
+    const indexLayout = (document.querySelector("#main-content") as HTMLElement)
+      ?.dataset;
+    const baseRoot = import.meta.env.BASE_URL.replace(/\/?$/, "/");
+    if (indexLayout?.layout) {
+      sessionStorage.setItem("backUrl", indexLayout.homePath ?? baseRoot);
+    }
+  });
+</script>

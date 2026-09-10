@@ -1,0 +1,150 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import Breadcrumb from "@/components/Breadcrumb.astro";
+import Footer from "@/components/Footer.astro";
+import TimelineItem from "@/components/TimelineItem.astro";
+import LinkButton from "@/components/LinkButton.astro";
+import { resume } from "@/data/resume";
+import { profile } from "@/data/profile";
+import config from "@/config";
+---
+
+<Layout
+  title={`简历 | ${config.site.title}`}
+  description={`${profile.name}的个人简历：经历、技能与代表成果。`}
+>
+  <Header />
+  <Breadcrumb />
+
+  <main id="main-content" class="app-layout pb-16 print:max-w-none">
+    <div
+      class="border-border mt-4 flex flex-col justify-between gap-6 border-b pb-8 sm:flex-row sm:items-end"
+    >
+      <div>
+        <p class="text-accent text-sm font-semibold tracking-widest uppercase">
+          Resume
+        </p>
+        <h1 class="mt-2 text-3xl font-bold sm:text-4xl">{profile.name}</h1>
+        <p class="text-muted-foreground mt-3">
+          {profile.role} · {profile.location}
+        </p>
+      </div>
+      <div class="flex flex-wrap gap-3 print:hidden">
+        <LinkButton
+          href={`mailto:${profile.email}`}
+          class="bg-accent text-accent-foreground rounded px-4 py-2.5 no-underline"
+        >
+          联系我
+        </LinkButton>
+        <button
+          id="print-resume"
+          type="button"
+          class="border-border hover:border-accent hover:text-accent rounded border px-4 py-2.5 font-medium"
+        >
+          打印 / 导出 PDF
+        </button>
+      </div>
+    </div>
+
+    <div class="grid gap-12 pt-10 lg:grid-cols-[0.72fr_0.28fr]">
+      <div>
+        <section>
+          <h2 class="text-2xl font-semibold">个人简介</h2>
+          <p class="text-muted-foreground mt-4 max-w-3xl leading-8">
+            {resume.summary}
+          </p>
+          <ul class="mt-5 space-y-3">
+            {
+              resume.highlights.map(item => (
+                <li class="flex gap-3 leading-7">
+                  <span
+                    class="bg-accent mt-3 size-1.5 shrink-0 rounded-full"
+                    aria-hidden="true"
+                  />
+                  {item}
+                </li>
+              ))
+            }
+          </ul>
+        </section>
+
+        <section class="mt-12">
+          <h2 class="text-2xl font-semibold">工作经历</h2>
+          <div class="mt-7">
+            {
+              resume.experience.map(item => (
+                <TimelineItem
+                  period={item.period}
+                  title={item.title}
+                  organization={item.organization}
+                  description={item.description}
+                  tags={item.skills}
+                />
+              ))
+            }
+          </div>
+        </section>
+
+        <section class="mt-4">
+          <h2 class="text-2xl font-semibold">教育经历</h2>
+          <div class="mt-7">
+            {
+              resume.education.map(item => (
+                <TimelineItem
+                  period={item.period}
+                  title={item.title}
+                  organization={item.organization}
+                  description={item.description}
+                />
+              ))
+            }
+          </div>
+        </section>
+      </div>
+
+      <aside class="space-y-8">
+        {
+          resume.skills.map(group => (
+            <section class="border-border rounded-lg border p-5">
+              <h2 class="text-lg font-semibold">{group.group}</h2>
+              <ul class="mt-4 flex flex-wrap gap-2">
+                {group.items.map(item => (
+                  <li class="bg-muted rounded px-2.5 py-1.5 text-sm">{item}</li>
+                ))}
+              </ul>
+            </section>
+          ))
+        }
+        <section class="border-border rounded-lg border p-5">
+          <h2 class="text-lg font-semibold">联系方式</h2>
+          <a
+            href={`mailto:${profile.email}`}
+            class="text-accent mt-3 inline-block break-all no-underline"
+          >
+            {profile.email}
+          </a>
+        </section>
+      </aside>
+    </div>
+  </main>
+
+  <Footer class="print:hidden" />
+</Layout>
+
+<script is:inline>
+  document.getElementById("print-resume")?.addEventListener("click", () => {
+    window.print();
+  });
+</script>
+
+<style>
+  @media print {
+    :global(header),
+    :global(nav),
+    :global(footer),
+    :global(#print-resume) {
+      display: none !important;
+    }
+  }
+</style>
